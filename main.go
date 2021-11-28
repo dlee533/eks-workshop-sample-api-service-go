@@ -33,7 +33,7 @@ func main() {
 		// Normally this would be application/json, but we don't want to prompt downloads
 		w.Header().Set("Content-Type", "text/html")
 
-		io.WriteString(""<h1>Cloud Project</h1>")
+		io.WriteString("<h1>Cloud Project</h1>")
 
 		fmt.Println("Hello world - the log message")
 	})
