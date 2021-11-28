@@ -13,9 +13,9 @@ import (
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
-		f := fib()
+// 		f := fib()
 
-		res := &response{Message: "<h1>Cloud Project :D</h1>"}
+// 		res := &response{Message: "<h1>Cloud Project :D</h1>"}
 
 // 		for _, e := range os.Environ() {
 // 			pair := strings.Split(e, "=")
@@ -33,7 +33,7 @@ func main() {
 		// Normally this would be application/json, but we don't want to prompt downloads
 		w.Header().Set("Content-Type", "text/html")
 
-		io.WriteString(w, string(out))
+		io.WriteString(""<h1>Cloud Project</h1>")
 
 		fmt.Println("Hello world - the log message")
 	})
