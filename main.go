@@ -10,34 +10,23 @@ import (
 	"strings"
 )
 
+const IndexHTML = `
+<h1>hello world!</h1>
+`
+
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-
-		f := fib()
-
-		res := &response{Message: "Hello World - edited to trigger new release"}
-
-		for _, e := range os.Environ() {
-			pair := strings.Split(e, "=")
-			res.EnvVars = append(res.EnvVars, pair[0]+"="+pair[1])
-		}
-		sort.Strings(res.EnvVars)
-
-		for i := 1; i <= 90; i++ {
-			res.Fib = append(res.Fib, f())
-		}
-
-		// Beautify the JSON output
-		out, _ := json.MarshalIndent(res, "", "  ")
-
-		// Normally this would be application/json, but we don't want to prompt downloads
-		w.Header().Set("Content-Type", "text/html")
-
-		io.WriteString(w, "<h1>hello world!</h1>")
-
-		fmt.Println("Hello world - the log message")
-	})
+	http.HandleFunc('/', IndexHTML)
 	http.ListenAndServe(":8080", nil)
+}
+
+func Index(w http.ResponseWriter, r *http.Request) {
+    url := r.FormValue("url")
+    if url == "" {
+        fmt.Fprint(w, IndexHTML)
+        return
+    }
+    key := "Placeholder"
+    fmt.Fprintf(w, "http://localhost:8080/%s", key)
 }
 
 type response struct {
