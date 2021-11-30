@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,30 +11,33 @@ import (
 )
 
 func main() {
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fs)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
-	log.Println("Listening on :3000...")
-	err := http.ListenAndServe(":3000", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-func main() {
-	fs := http.FileServer(http.Dir("./index.html"))
-	http.Handle("/", fs)
+		f := fib()
 
-	log.Println("Listening on :8080...")
+		res := &response{Message: "Hello World - edited to trigger new release"}
+
+		for _, e := range os.Environ() {
+			pair := strings.Split(e, "=")
+			res.EnvVars = append(res.EnvVars, pair[0]+"="+pair[1])
+		}
+		sort.Strings(res.EnvVars)
+
+		for i := 1; i <= 90; i++ {
+			res.Fib = append(res.Fib, f())
+		}
+
+		// Beautify the JSON output
+		out, _ := json.MarshalIndent(res, "", "  ")
+
+		// Normally this would be application/json, but we don't want to prompt downloads
+		w.Header().Set("Content-Type", "text/plain")
+
+		io.WriteString(w, string(out))
+
+		fmt.Println("Hello world - the log message")
+	})
 	http.ListenAndServe(":8080", nil)
-
-	// staticHandler := http.FileServer(http.Dir("./assets"))
-	// mux.Handle("/assets/", http.StripPrefix("/assets/", staticHandler))
-	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-  //  	        w.Write([]byte("<h1>Hello World</h1> <br> <p>Cloud Project</p>"))
-	//
-	// 	fmt.Println("Hello world - the log message")
-	// })
-	// http.ListenAndServe(":8080", nil)
 }
 
 type response struct {
