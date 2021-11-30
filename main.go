@@ -6,7 +6,7 @@ import (
 )
 
 const IndexHTML = `
-<h1>hello world! - updated</h1>
+<h1>hello world! - updated agin</h1>
 `
 
 func main() {
