@@ -12,28 +12,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-
-		f := fib()
-
-		res := &response{Message: "Cloud project"}
-
-		for _, e := range os.Environ() {
-			pair := strings.Split(e, "=")
-			res.EnvVars = append(res.EnvVars, pair[0]+"="+pair[1])
-		}
-		sort.Strings(res.EnvVars)
-
-		for i := 1; i <= 90; i++ {
-			res.Fib = append(res.Fib, f())
-		}
-
-		// Beautify the JSON output
-		out, _ := json.MarshalIndent(res, "", "  ")
-
-		// Normally this would be application/json, but we don't want to prompt downloads
-		w.Header().Set("Content-Type", "text/html")
-
-		io.WriteString(w, "<h1>Cloud Project: eksctl</h1>")
+   	        w.Write([]byte("<h1>Hello World</h1> <br> <p>Cloud Project</p>"))
 
 		fmt.Println("Hello world - the log message")
 	})
