@@ -15,7 +15,7 @@ const IndexHTML = `
 `
 
 func main() {
-	http.HandleFunc('/', Index)
+	http.HandleFunc("/", Index)
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -27,18 +27,4 @@ func Index(w http.ResponseWriter, r *http.Request) {
     }
     key := "Placeholder"
     fmt.Fprintf(w, "http://localhost:8080/%s", key)
-}
-
-type response struct {
-	Message string   `json:"message"`
-	EnvVars []string `json:"env"`
-	Fib     []int    `json:"fib"`
-}
-
-func fib() func() int {
-	a, b := 0, 1
-	return func() int {
-		a, b = b, a+b
-		return a
-	}
 }
